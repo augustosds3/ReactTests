@@ -1,57 +1,78 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Person from './components/Person/Person';
 
-const App = (props) => {
+class App extends Component {
 
-  const style ={
+  style = {
     backgroundColor: 'white',
     font: 'inherit',
     border: '1px solid blue',
     padding: '8px'
   }
 
-  const [personState, setPersonState] = useState({
+  state = ({
     persons: [
       { name: 'Augusto', age: '27' },
       { name: 'Sergio', age: '29' },
       { name: 'Santos', age: '28' }
     ],
-    otherState: 'Do something'
+    otherState: 'Do something',
+    showPersons: false
   });
 
-  console.log(personState);
-
-  const switchNameHandler = (nameNew) => {
-    setPersonState({
+  switchNameHandler = (nameNew) => {
+    this.setState({
       persons: [
-        {name:  nameNew, age: '30'},
+        { name: nameNew, age: '30' },
         { name: 'AugustoSS', age: '19' },
-      { name: 'SantosVV', age: '30' }
+        { name: 'SantosVV', age: '30' }
       ]
     });
   }
 
-const nameChangeHandler = (event) => {
-  setPersonState({persons: [
-    { name: 'Augusto', age: '27' },
-      { name: event.target.value, age: '29' },
-      { name: 'Santos', age: '28' }
-  ]});
-}
+  nameChangeHandler = (event) => {
+    this.setState({
+      persons: [
+        { name: 'Augusto', age: '27' },
+        { name: event.target.value, age: '29' },
+        { name: 'Santos', age: '28' }
+      ]
+    });
+  }
 
+  togglePersonHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({
+      showPersons: !doesShow
+    });
+  }
 
-  return (
-    <div className="App">
-      <h1>Testando</h1>
-      <button onClick={switchNameHandler.bind(this, 'aaeHOOOOO')} style={style}>Switch</button>
-      <Person age={personState.persons[0].age} name={personState.persons[0].name}/>
-      <Person age="28" name={personState.persons[1].name} click = {switchNameHandler.bind(this, 'aaeHOOOOO!!!') } changed = {nameChangeHandler}>Out Content</Person>
-      <Person age="29" name={personState.persons[2].name}/>
+  render() {
+
+    let persons = null;
+
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          {this.state.persons.map(person => {
+            return <Person age = {person.age} name = {person.name}
+            click={this.switchNameHandler.bind(this, '')} changed={this.nameChangeHandler}/>
+          })}
+        </div>
+      )
+    }
+
+    return (
+      <div className="App">
+        <button onClick={this.togglePersonHandler} style={this.style}>Toogle Persons</button>
+        {persons}
     </div>
-  );
+    );
 
-  //return React.createElement('div', {className: 'App'} , React.createElement('h1', null, 'Eu to testando'));
+
+    //return React.createElement('div', {className: 'App'} , React.createElement('h1', null, 'Eu to testando'));
+  }
 }
 
 
