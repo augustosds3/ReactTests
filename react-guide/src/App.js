@@ -13,32 +13,30 @@ class App extends Component {
 
   state = ({
     persons: [
-      { name: 'Augusto', age: '27' },
-      { name: 'Sergio', age: '29' },
-      { name: 'Santos', age: '28' }
+      {id: '1', name: 'Augusto', age: '27' },
+      {id: '2', name: 'Sergio', age: '29' },
+      {id: '3', name: 'Santos', age: '28' }
     ],
     otherState: 'Do something',
     showPersons: false
   });
 
-  switchNameHandler = (nameNew) => {
-    this.setState({
-      persons: [
-        { name: nameNew, age: '30' },
-        { name: 'AugustoSS', age: '19' },
-        { name: 'SantosVV', age: '30' }
-      ]
-    });
-  }
+  nameChangeHandler = (event,  id) => {
 
-  nameChangeHandler = (event) => {
-    this.setState({
-      persons: [
-        { name: 'Augusto', age: '27' },
-        { name: event.target.value, age: '29' },
-        { name: 'Santos', age: '28' }
-      ]
+    const personIndex = this.state.persons.findIndex(person => {
+      return person.id === id;
     });
+
+    const updatedPerson = {
+      ...this.state.persons[personIndex] //spread to copy the object
+    }
+
+    updatedPerson.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = updatedPerson;
+
+    this.setState({persons: persons});
   }
 
   togglePersonHandler = () => {
@@ -48,6 +46,12 @@ class App extends Component {
     });
   }
 
+  deletePersonHandler = (personIndex) => {
+    const persons = [...this.state.persons] //poderia usar this.state.persons.slice()
+    persons.splice(personIndex,1);
+    this.setState({persons: persons});
+  }
+
   render() {
 
     let persons = null;
@@ -55,9 +59,11 @@ class App extends Component {
     if (this.state.showPersons) {
       persons = (
         <div>
-          {this.state.persons.map(person => {
+          {this.state.persons.map((person, index) => {
             return <Person age = {person.age} name = {person.name}
-            click={this.switchNameHandler.bind(this, '')} changed={this.nameChangeHandler}/>
+            click = {() => this.deletePersonHandler(index)}
+            key = {person.id} 
+            changed = {(event) => this.nameChangeHandler(event, person.id)}/>
           })}
         </div>
       )
