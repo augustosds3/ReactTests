@@ -1,15 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './components/Person/Person';
+import Person from '../components/Persons/Person/Person';
 
 class App extends Component {
-
-  style = {
-    backgroundColor: 'white',
-    font: 'inherit',
-    border: '1px solid blue',
-    padding: '8px'
-  }
 
   state = ({
     persons: [
@@ -54,6 +47,14 @@ class App extends Component {
 
   render() {
 
+    const style = {
+      backgroundColor: 'green',
+      color: 'white',
+      font: 'inherit',
+      border: '1px solid blue',
+      padding: '8px'
+    }
+
     let persons = null;
 
     if (this.state.showPersons) {
@@ -67,11 +68,13 @@ class App extends Component {
           })}
         </div>
       )
+
+      style.backgroundColor = 'red';
     }
 
     return (
       <div className="App">
-        <button onClick={this.togglePersonHandler} style={this.style}>Toogle Persons</button>
+        <button onClick={this.togglePersonHandler} style={style}>Toogle Persons</button>
         {persons}
     </div>
     );
