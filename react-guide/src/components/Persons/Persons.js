@@ -9,4 +9,4 @@ const persons = (props) => props.persons.map((person, index) => {
       })
 ;
 
-export default pers
+export default persons;
