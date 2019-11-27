@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import Person from '../Persons/Person/Person'
 
-const persons = (props) => props.persons.map((person, index) => {
-        return <Person age = {person.age} name = {person.name}
-        click = {() => props.clicked(index)}
-        key = {person.id} 
-        changed = {(event) => props.changed(event, person.id)}/>
-      })
-;
+class Persons extends PureComponent {
 
-export default persons;
+ /*    shouldComponentUpdate(nextProps, nextState){
+        console.log('[Persons.js] shouldUpdate');
+        if(nextProps.persons !== this.props.persons){
+            return true;
+        }
+        
+        return false;
+    } */
+
+    render() {
+        console.log('[Person.js] rendering...');
+        return this.props.persons.map((person, index) => {
+            return <Person age={person.age} name={person.name}
+                click={() => this.props.clicked(index)}
+                key={person.id}
+                changed={(event) => this.props.changed(event, person.id)} />
+        });
+    }
+
+}
+
+
+
+
+export default Persons;

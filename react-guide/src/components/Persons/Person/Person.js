@@ -1,6 +1,8 @@
 import React from 'react'
-import './Person.css'
+import classes from './Person.module.css'
 import styled from 'styled-components'
+import Auxiliary from '../../../hoc/Auxiliary'
+import withClass from '../../../hoc/withClass'
 
 const StyleDiv = styled.div`
 .Person {
@@ -17,16 +19,18 @@ const StyleDiv = styled.div`
 }
 `
 
-const person = (props) => {
-
-    return (
-        //<div className="Person" style = {style}>
-        <StyleDiv>
-            <p onClick={props.click}>Person Age {props.age} and Person Name {props.name}</p>
-            <p>{props.children}</p>
-            <input type="text" onChange={props.changed} value={props.name} />
-        </StyleDiv>
+const Person = (props) => {
+    console.log('[Person.js] Rendering...')
+    return(
+        <Auxiliary>
+            <StyleDiv>
+                <p onClick={props.click}>Person Age {props.age} and Person Name {props.name}</p>
+                <p>{props.children}</p>
+                <input type="text" onChange={props.changed} value={props.name} />
+            </StyleDiv>
+            <div>aaeHOOOOO</div>
+        </Auxiliary>
     )
 }
 
-export default person;
+export default withClass(Person, classes.Person);

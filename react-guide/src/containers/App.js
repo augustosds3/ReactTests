@@ -2,8 +2,24 @@ import React, { Component } from 'react';
 import classes from './App.module.css';
 import Cockpit from '../components/cockpit/Cockpit'
 import Persons from '../components/Persons/Persons'
+import withClass from '../hoc/withClass';
+import Auxliary from '../hoc/Auxiliary';
 
 class App extends Component {
+
+  constructor(props) {
+    super(props)
+    console.log('Teste');
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    console.log('[App.js] getDerivedStateFromProps', props);
+    return state;
+  }
+
+  componentDidMount() {
+    console.log('[App.js] componentDidMount...');
+  }
 
   state = ({
     persons: [
@@ -12,7 +28,8 @@ class App extends Component {
       { id: '3', name: 'Santos', age: '28' }
     ],
     otherState: 'Do something',
-    showPersons: false
+    showPersons: false,
+    showCockpit: true
   });
 
   nameChangeHandler = (event, id) => {
@@ -47,27 +64,31 @@ class App extends Component {
   }
 
   render() {
+    console.log('[App.js] render');
 
     let persons = null;
-    
+
 
     if (this.state.showPersons) {
       persons = (
         <Persons
-          persons = {this.state.persons}
-          clicked = {this.deletePersonHandler}
-          changed = {this.nameChangeHandler}
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.nameChangeHandler}
         />
       )
     }
 
     return (
-        <div className={classes.App}>
-          <Cockpit persons = {this.state.persons}
-          showPersons = {this.state.showPersons}
-          togglePersonHandler = {this.togglePersonHandler}/>
-          {persons}
-        </div>
+      <Auxliary>
+        <button onClick={() => { this.setState({ showCockpit: false }) }}>Remove Cockpit</button>
+        {this.state.showCockpit ?
+          <Cockpit personsLenght={this.state.persons.length}
+            showPersons={this.state.showPersons}
+            togglePersonHandler={this.togglePersonHandler} /> : null
+        }
+        {persons}
+      </Auxliary>
     );
 
 
@@ -76,4 +97,4 @@ class App extends Component {
 }
 
 
-export default App;
+export default withClass(App, classes.App);
