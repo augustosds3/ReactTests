@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
 import classes from './Person.module.css'
 import styled from 'styled-components'
 import Auxiliary from '../../../hoc/Auxiliary'
 import withClass from '../../../hoc/withClass'
+import AuthContext from '../../../context/auth-context'
 
 const StyleDiv = styled.div`
 .Person {
@@ -19,18 +20,40 @@ const StyleDiv = styled.div`
 }
 `
 
-const Person = (props) => {
-    console.log('[Person.js] Rendering...')
-    return(
-        <Auxiliary>
-            <StyleDiv>
-                <p onClick={props.click}>Person Age {props.age} and Person Name {props.name}</p>
-                <p>{props.children}</p>
-                <input type="text" onChange={props.changed} value={props.name} />
-            </StyleDiv>
-            <div>aaeHOOOOO</div>
-        </Auxiliary>
-    )
+class Person extends Component {
+
+    constructor(props) {
+        super(props)
+        this.inputElementRef = React.createRef();
+    }
+
+    componentDidMount() {
+        this.inputElementRef.current.focus();
+    }
+
+    render() {
+        console.log('[Person.js] Rendering...')
+        return (
+            <Auxiliary>
+                <AuthContext.Consumer>
+                    {
+                        context => context.authenticated ?
+                        <p>Autenticated</p> : 
+                        <p>Please Log In</p>
+                    }
+                </AuthContext.Consumer>
+                <StyleDiv>
+                    <p onClick={this.props.click}>Person Age {this.props.age} and Person Name {this.props.name}</p>
+                    <p>{this.props.children}</p>
+                    <input ref={this.inputElementRef}
+                        //ref={(inputEL) => { this.inputElement = inputEL }} 
+                        type="text" onChange={this.props.changed} value={this.props.name} />
+                </StyleDiv>
+                <div>aaeHOOOOO</div>
+
+            </Auxiliary>
+        )
+    }
 }
 
 export default withClass(Person, classes.Person);
