@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import axios from '../../../src/axios';
 
 import Post from '../../components/Post/Post';
 import FullPost from '../../components/FullPost/FullPost';
@@ -10,11 +10,12 @@ class Blog extends Component {
 
     state = {
         posts: [],
-        selectedPostId: null
+        selectedPostId: null,
+        error: false
     }
 
     componentDidMount() {
-        axios.get('https://jsonplaceholder.typicode.com/posts')
+        axios.get('/posts')
             .then((response) => {
                 console.log(response.data)
                 const posts = response.data.slice(0, 4);
@@ -27,6 +28,9 @@ class Blog extends Component {
                     }
                 })
                 this.setState({ posts: updatedPosts })
+            })
+            .catch(error => {
+                this.setState({error: true})
             });
     }
 
@@ -38,13 +42,17 @@ class Blog extends Component {
 
     render() {
 
-        const posts = this.state.posts.map((post) => {
-            return <Post key={post.id} 
-            title={post.title} 
-            author={post.author} 
-            clicked={() => this.postClickedHandler(post.id)}/>
-        });
+        let posts = <p style = {{textAlign: 'center'}}>WRONG</p>
+        if(!this.state.error){
+                posts = this.state.posts.map((post) => {
+                return <Post key={post.id} 
+                title={post.title} 
+                author={post.author} 
+                clicked={() => this.postClickedHandler(post.id)}/>
+            });
+        }
 
+        
         return (
             <div>
                 <section className="Posts">
