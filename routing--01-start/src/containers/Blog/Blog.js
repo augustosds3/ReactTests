@@ -9,7 +9,8 @@ class Blog extends Component {
     state = {
         posts: [],
         selectedPostId: null,
-        error: false
+        error: false,
+        auth: false
     }
 
     render() {
@@ -32,9 +33,10 @@ class Blog extends Component {
                     <Route path = "/" render = {() => <h1>Route 2</h1>}/>*/}
 
                 <Switch>
-                    <Route path="/new-post" component={NewPost} />
+                    {this.state.auth ? <Route path="/new-post" component={NewPost} /> : null}
                     <Route path="/posts" component={Posts} />
-                    <Redirect from = "/" to = "/posts"/>
+                    <Route render = {()=> <h1>Not found</h1>}/>
+                    {{/* <Redirect from = "/" to = "/posts"/> */}}
                     {/*<Route path="/" component={Posts} />*/}
                 </Switch>
             </div>
