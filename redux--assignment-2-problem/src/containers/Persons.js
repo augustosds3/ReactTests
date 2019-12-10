@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Person from '../components/Person/Person';
 import AddPerson from '../components/AddPerson/AddPerson';
 
+import { connect } from 'react-redux';
+
 class Persons extends Component {
     state = {
         persons: []
@@ -41,4 +43,17 @@ class Persons extends Component {
     }
 }
 
-export default Persons;
+const mapStateToProps = state => {
+    return {
+
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onAddPerson: () => dispatch({}),
+        onDeletePerson: () => dispatch({})
+    }
+}
+
+export default connect()(Persons);
