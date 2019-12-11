@@ -7,10 +7,6 @@ import { connect } from 'react-redux';
 import * as actions from '../store/actions'
 
 class Persons extends Component {
-    state = {
-        persons: []
-    }
-
     render () {
         return (
             <div>
@@ -35,7 +31,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddPerson: () => dispatch({type: actions.ADD_PERSON}),
+        onAddPerson: (name, age) => dispatch({type: actions.ADD_PERSON, payload: {name:name, age:age}}),
         onDeletePerson: (personId) => dispatch({type: actions.DELETE_PERSON, payload: {personId: personId}})
     }
 }

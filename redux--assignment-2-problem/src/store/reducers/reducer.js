@@ -10,8 +10,8 @@ const reducer = (state = intialState, action) => {
         case actions.ADD_PERSON:
             const newPerson = {
                 id: Math.random(), // not really unique but good enough here!
-                name: 'Augusto',
-                age: Math.floor(Math.random() * 40)
+                name: action.payload.name,
+                age: action.payload.age
             }
             console.log(state.persons)
             return {
